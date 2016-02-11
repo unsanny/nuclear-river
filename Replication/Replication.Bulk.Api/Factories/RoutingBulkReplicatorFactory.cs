@@ -12,7 +12,7 @@ namespace NuClear.Replication.Bulk.Api.Factories
 {
     public class RoutingBulkReplicatorFactory : IBulkReplicatorFactory
     {
-        private readonly DataConnection _sourceDataConnection;
+        private readonly IReadOnlyDictionary<DataConnection, Type[]> _sourceDataConnections;
         private readonly DataConnection _targetDataConnection;
 
         private static readonly IReadOnlyDictionary<Type, Type> RoutingDictionary =
@@ -24,9 +24,9 @@ namespace NuClear.Replication.Bulk.Api.Factories
                 { typeof(StatisticsRecalculationMetadata<>), typeof(StatisticsBulkReplicatorFactory<>) }
             };
 
-        public RoutingBulkReplicatorFactory(DataConnection sourceDataConnection, DataConnection targetDataConnection)
+        public RoutingBulkReplicatorFactory(IReadOnlyDictionary<DataConnection, Type[]> sourceDataConnections, DataConnection targetDataConnection)
         {
-            _sourceDataConnection = sourceDataConnection;
+            _sourceDataConnections = sourceDataConnections;
             _targetDataConnection = targetDataConnection;
         }
 
@@ -41,13 +41,16 @@ namespace NuClear.Replication.Bulk.Api.Factories
             }
 
             var objType = metadataElementType.GenericTypeArguments[0];
-            var factory = (IBulkReplicatorFactory)Activator.CreateInstance(factoryType.MakeGenericType(objType), new LinqToDbQuery(_sourceDataConnection), _targetDataConnection);
+            var factory = (IBulkReplicatorFactory)Activator.CreateInstance(factoryType.MakeGenericType(objType), new LinqToDbQuery(_sourceDataConnections), _targetDataConnection);
             return factory.Create(metadataElement);
         }
 
         public void Dispose()
         {
-            _sourceDataConnection.Dispose();
+            foreach (var sourceDataConnection in _sourceDataConnections)
+            {
+                sourceDataConnection.Key.Dispose();
+            }
             _targetDataConnection.Dispose();
         }
     }
