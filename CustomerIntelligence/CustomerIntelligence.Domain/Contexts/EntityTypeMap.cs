@@ -6,6 +6,7 @@ using NuClear.Model.Common.Entities;
 
 using Erm = NuClear.CustomerIntelligence.Domain.Model.Erm;
 using Facts = NuClear.CustomerIntelligence.Domain.Model.Facts;
+using BitFacts = NuClear.CustomerIntelligence.Domain.Model.Bit;
 using CI = NuClear.CustomerIntelligence.Domain.Model.CI;
 using Statistics = NuClear.CustomerIntelligence.Domain.Model.Statistics;
 
@@ -76,6 +77,11 @@ namespace NuClear.CustomerIntelligence.Domain.Contexts
                     .AddMapping<EntityTypeProjectCategory, CI.ProjectCategory>()
                     .AddMapping<EntityTypeTerritory, CI.Territory>();
 
+        private static readonly Action<EntityTypeMappingRegistryBuilder> BitFactsTypeMap
+            = builder => builder
+                    .AddAsPersistenceOnly(typeof(BitFacts::FirmCategoryStatistics))
+                    .AddAsPersistenceOnly(typeof(BitFacts::ProjectCategoryStatistics));
+
         public static IEntityTypeMappingRegistry<ErmSubDomain> CreateErmContext()
         {
             var builder = new EntityTypeMappingRegistryBuilder();
@@ -95,6 +101,13 @@ namespace NuClear.CustomerIntelligence.Domain.Contexts
             var builder = new EntityTypeMappingRegistryBuilder();
             FactsTypeMap.Invoke(builder);
             return builder.Create<FactsSubDomain>();
+        }
+
+        public static IEntityTypeMappingRegistry<BitFactsSubDomain> CreateBitFactsContext()
+        {
+            var builder = new EntityTypeMappingRegistryBuilder();
+            BitFactsTypeMap.Invoke(builder);
+            return builder.Create<BitFactsSubDomain>();
         }
     }
 

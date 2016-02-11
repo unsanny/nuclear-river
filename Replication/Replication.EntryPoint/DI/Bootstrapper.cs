@@ -341,7 +341,8 @@ namespace NuClear.Replication.EntryPoint.DI
         {
             return container.RegisterInstance(EntityTypeMap.CreateErmContext())
                             .RegisterInstance(EntityTypeMap.CreateCustomerIntelligenceContext())
-                            .RegisterInstance(EntityTypeMap.CreateFactsContext());
+                            .RegisterInstance(EntityTypeMap.CreateFactsContext())
+                            .RegisterInstance(EntityTypeMap.CreateBitFactsContext());
         }
 
         private static class Scope

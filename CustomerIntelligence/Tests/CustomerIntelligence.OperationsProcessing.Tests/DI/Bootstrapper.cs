@@ -69,7 +69,8 @@ namespace NuClear.CustomerIntelligence.OperationsProcessing.Tests.DI
         {
             return container.RegisterInstance(EntityTypeMap.CreateErmContext())
                             .RegisterInstance(EntityTypeMap.CreateCustomerIntelligenceContext())
-                            .RegisterInstance(EntityTypeMap.CreateFactsContext());
+                            .RegisterInstance(EntityTypeMap.CreateFactsContext())
+                            .RegisterInstance(EntityTypeMap.CreateBitFactsContext());
         }
     }
 }

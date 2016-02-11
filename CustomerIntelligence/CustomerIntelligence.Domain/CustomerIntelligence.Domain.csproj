@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="AggregateConstructionMetadataSource.cs" />
     <Compile Include="Contexts\CustomerIntelligenceSubDomain.cs" />
+    <Compile Include="Contexts\BitFactsSubDomain.cs" />
     <Compile Include="Contexts\ErmSubDomain.cs" />
     <Compile Include="Contexts\FactsSubDomain.cs" />
     <Compile Include="DTO\CategoryStatisticsDto.cs" />
