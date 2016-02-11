@@ -428,7 +428,7 @@ namespace NuClear.CustomerIntelligence.Replication.Tests.Transformation
                 _query = query;
                 _repositoryFactory = new VerifiableRepositoryFactory();
                 _metadataSource = new AggregateConstructionMetadataSource();
-                _comparerFactory = new EqualityComparerFactory(new LinqToDbPropertyProvider(Schema.Erm, Schema.Facts, Schema.CustomerIntelligence));
+                _comparerFactory = new EqualityComparerFactory(new LinqToDbPropertyProvider(Schema.Erm, Schema.Facts, Schema.Bit, Schema.CustomerIntelligence));
             }
 
             public static Transformation Create(IQuery query)

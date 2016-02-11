@@ -36,6 +36,17 @@ namespace NuClear.CustomerIntelligence.Storage
                 config.Entity<Territory>().HasSchemaName(ErmSchema).Property(x => x.Id).IsPrimaryKey();
                 config.Entity<SalesModelCategoryRestriction>().HasSchemaName(ErmSchema).Property(x => x.Id).IsPrimaryKey();
 
+                return schema;
+            }
+        }
+
+        public static MappingSchema Bit
+        {
+            get
+            {
+                var schema = new MappingSchema(nameof(Bit), new SqlServerMappingSchema());
+                var config = schema.GetFluentMappingBuilder();
+
                 config.Entity<FirmCategoryStatistics>().HasSchemaName(BitSchema)
                       .Property(x => x.FirmId).IsPrimaryKey()
                       .Property(x => x.CategoryId).IsPrimaryKey();

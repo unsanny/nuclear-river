@@ -136,7 +136,7 @@ namespace NuClear.CustomerIntelligence.Replication.Tests.StatisticsTransformatio
             var metadataSource = new StatisticsRecalculationMetadataSource();
             var metadata = (StatisticsRecalculationMetadata<T>)metadataSource.Metadata.Values.SelectMany(x => x.Elements).Single();
             repository = new Mock<IRepository<T>>();
-            var comparerFactory = new EqualityComparerFactory(new LinqToDbPropertyProvider(Schema.Erm, Schema.Facts, Schema.CustomerIntelligence));
+            var comparerFactory = new EqualityComparerFactory(new LinqToDbPropertyProvider(Schema.Erm, Schema.Facts, Schema.Bit, Schema.CustomerIntelligence));
 
             return new StatisticsProcessor<T>(metadata, new MemoryMockQuery(data), new BulkRepository<T>(repository.Object), comparerFactory);
         }

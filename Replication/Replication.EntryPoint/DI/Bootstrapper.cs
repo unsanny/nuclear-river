@@ -264,6 +264,7 @@ namespace NuClear.Replication.EntryPoint.DI
                                 {
                                     { Scope.Erm, Schema.Erm },
                                     { Scope.Facts, Schema.Facts },
+                                    { Scope.Bit, Schema.Bit },
                                     { Scope.CustomerIntelligence, Schema.CustomerIntelligence },
                                     { Scope.Transport, TransportSchema.Transport },
                                 };
@@ -320,6 +321,7 @@ namespace NuClear.Replication.EntryPoint.DI
                 {
                     { Scope.Erm, ErmConnectionStringIdentity.Instance },
                     { Scope.Facts, FactsConnectionStringIdentity.Instance },
+                    { Scope.Bit, FactsConnectionStringIdentity.Instance },
                     { Scope.CustomerIntelligence, CustomerIntelligenceConnectionStringIdentity.Instance },
                     { Scope.Transport, TransportConnectionStringIdentity.Instance }
                 };
@@ -327,6 +329,7 @@ namespace NuClear.Replication.EntryPoint.DI
             var writeConnectionStringNameMap = new Dictionary<string, IConnectionStringIdentity>
                 {
                     { Scope.Facts, FactsConnectionStringIdentity.Instance },
+                    { Scope.Bit, FactsConnectionStringIdentity.Instance },
                     { Scope.CustomerIntelligence, CustomerIntelligenceConnectionStringIdentity.Instance },
                     { Scope.Transport, TransportConnectionStringIdentity.Instance }
                 };
@@ -345,6 +348,7 @@ namespace NuClear.Replication.EntryPoint.DI
         {
             public const string Erm = "Erm";
             public const string Facts = "Facts";
+            public const string Bit = "Bit";
             public const string CustomerIntelligence = "CustomerIntelligence";
             public const string Transport = "Transport";
         }

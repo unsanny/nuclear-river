@@ -20,6 +20,7 @@ namespace NuClear.CustomerIntelligence.Replication.Tests
                                                                             {
                                                                                 { "Erm", Schema.Erm },
                                                                                 { "Facts", Schema.Facts },
+                                                                                { "Bit", Schema.Bit },
                                                                                 { "CustomerIntelligence", Schema.CustomerIntelligence }
                                                                             });
             _scopedDomainContextsStore = new ScopedDomainContextsStore(

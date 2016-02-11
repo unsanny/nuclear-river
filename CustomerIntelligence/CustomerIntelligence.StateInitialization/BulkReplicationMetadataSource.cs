@@ -30,7 +30,7 @@ namespace NuClear.CustomerIntelligence.StateInitialization
 
                 BulkReplicationMetadataElement.Config
                                               .CommandlineKey("-statistics")
-                                              .From(ConnectionString.Facts, Schema.Facts)
+                                              .From(ConnectionString.Facts, Schema.Bit)
                                               .To(ConnectionString.CustomerIntelligence, Schema.CustomerIntelligence)
                                               .UsingMetadataOfKind<StatisticsRecalculationMetadataIdentity>()
             }.ToDictionary(x => x.Identity.Id, x => (IMetadataElement)x);

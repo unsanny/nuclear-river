@@ -27,7 +27,7 @@ namespace NuClear.Replication.EntryPoint.Settings
 
             if (objType.Namespace.EndsWith(Bit))
             {
-                return Facts;
+                return Bit;
             }
 
             if (objType == typeof(PerformedOperationFinalProcessing))
