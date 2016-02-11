@@ -64,7 +64,9 @@
     <Compile Include="BulkReplicationMetadataKindIdentity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReplicationDirection.cs" />
+    <Compile Include="SourceStorageDescriptorFeature.cs" />
     <Compile Include="StorageDescriptorFeature.cs" />
+    <Compile Include="TargetStorageDescriptorFeature.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

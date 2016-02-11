@@ -1,23 +1,21 @@
-﻿using LinqToDB.Mapping;
+using LinqToDB.Mapping;
 
 using NuClear.Metamodeling.Elements.Aspects.Features;
 using NuClear.Storage.API.ConnectionStrings;
 
 namespace NuClear.Replication.Bulk.Metadata
 {
-    public class StorageDescriptorFeature : IMetadataFeature
+    public abstract class StorageDescriptorFeature : IMetadataFeature
     {
-        public StorageDescriptorFeature(ReplicationDirection direction, IConnectionStringIdentity connectionStringName, MappingSchema mappingSchema)
+        protected StorageDescriptorFeature(ReplicationDirection direction, IConnectionStringIdentity connectionStringName, MappingSchema mappingSchema)
         {
             Direction = direction;
             ConnectionStringName = connectionStringName;
             MappingSchema = mappingSchema;
         }
 
-        public ReplicationDirection Direction { get; private set; }
-        
-        public IConnectionStringIdentity ConnectionStringName { get; private set; }
-
-        public MappingSchema MappingSchema { get; private set; }
+        public ReplicationDirection Direction { get; }
+        public IConnectionStringIdentity ConnectionStringName { get; }
+        public MappingSchema MappingSchema { get; }
     }
 }

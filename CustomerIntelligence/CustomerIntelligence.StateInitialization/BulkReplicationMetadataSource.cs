@@ -4,6 +4,7 @@ using System.Linq;
 
 using NuClear.AdvancedSearch.Common.Metadata.Identities;
 using NuClear.CustomerIntelligence.Domain;
+using NuClear.CustomerIntelligence.Domain.Contexts;
 using NuClear.CustomerIntelligence.Storage;
 using NuClear.Metamodeling.Elements;
 using NuClear.Metamodeling.Provider.Sources;
@@ -18,19 +19,19 @@ namespace NuClear.CustomerIntelligence.StateInitialization
             {
                 BulkReplicationMetadataElement.Config
                                               .CommandlineKey("-fact")
-                                              .From(ConnectionString.Erm, Schema.Erm)
+                                              .From(ConnectionString.Erm, Schema.Erm, EntityTypeMap.CreateErmContext())
                                               .To(ConnectionString.Facts, Schema.Facts)
                                               .UsingMetadataOfKind<ReplicationMetadataIdentity>(ReplicationMetadataName.Facts),
 
                 BulkReplicationMetadataElement.Config
                                               .CommandlineKey("-ci")
-                                              .From(ConnectionString.Facts, Schema.Facts)
+                                              .From(ConnectionString.Facts, Schema.Facts, EntityTypeMap.CreateFactsContext())
                                               .To(ConnectionString.CustomerIntelligence, Schema.CustomerIntelligence)
                                               .UsingMetadataOfKind<ReplicationMetadataIdentity>(ReplicationMetadataName.Aggregates),
 
                 BulkReplicationMetadataElement.Config
                                               .CommandlineKey("-statistics")
-                                              .From(ConnectionString.Facts, Schema.Bit)
+                                              .From(ConnectionString.Facts, Schema.Facts, EntityTypeMap.CreateFactsContext())
                                               .To(ConnectionString.CustomerIntelligence, Schema.CustomerIntelligence)
                                               .UsingMetadataOfKind<StatisticsRecalculationMetadataIdentity>()
             }.ToDictionary(x => x.Identity.Id, x => (IMetadataElement)x);
