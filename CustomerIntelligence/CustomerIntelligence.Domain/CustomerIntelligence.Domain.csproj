@@ -36,9 +36,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AggregateConstructionMetadataSource.cs" />
+    <Compile Include="Contexts\CustomerIntelligenceSubDomain.cs" />
+    <Compile Include="Contexts\ErmSubDomain.cs" />
+    <Compile Include="Contexts\FactsSubDomain.cs" />
     <Compile Include="DTO\CategoryStatisticsDto.cs" />
     <Compile Include="DTO\FirmStatisticsDto.cs" />
     <Compile Include="EntityTypeIds.cs" />
+    <Compile Include="Contexts\EntityTypeMap.cs" />
     <Compile Include="EntityTypes\EntityTypeAccount.cs" />
     <Compile Include="EntityTypes\EntityTypeActivity.cs" />
     <Compile Include="EntityTypes\EntityTypeAppointment.cs" />

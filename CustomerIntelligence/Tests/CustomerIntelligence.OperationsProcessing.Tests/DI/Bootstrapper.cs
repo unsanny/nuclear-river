@@ -2,6 +2,7 @@
 
 using Moq;
 
+using NuClear.CustomerIntelligence.Domain.Contexts;
 using NuClear.CustomerIntelligence.OperationsProcessing.Tests.Mocks.Receiver;
 using NuClear.DI.Unity.Config;
 using NuClear.Messaging.API.Processing.Actors.Accumulators;

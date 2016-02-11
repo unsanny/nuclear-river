@@ -1,7 +1,6 @@
 ﻿using System;
 
 using NuClear.CustomerIntelligence.Domain.EntityTypes;
-using NuClear.CustomerIntelligence.OperationsProcessing.Contexts;
 using NuClear.Model.Common;
 using NuClear.Model.Common.Entities;
 
@@ -10,7 +9,7 @@ using Facts = NuClear.CustomerIntelligence.Domain.Model.Facts;
 using CI = NuClear.CustomerIntelligence.Domain.Model.CI;
 using Statistics = NuClear.CustomerIntelligence.Domain.Model.Statistics;
 
-namespace NuClear.CustomerIntelligence.OperationsProcessing
+namespace NuClear.CustomerIntelligence.Domain.Contexts
 {
     public static class EntityTypeMap
     {

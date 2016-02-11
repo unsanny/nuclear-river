@@ -181,6 +181,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\CustomerIntelligence.Domain\CustomerIntelligence.Domain.csproj">
+      <Project>{B0A258D5-7387-4FB2-BA18-B51550DA3F0B}</Project>
+      <Name>CustomerIntelligence.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\CustomerIntelligence.OperationsProcessing\CustomerIntelligence.OperationsProcessing.csproj">
       <Project>{794F43F6-E4F3-4A80-A2B0-195D3560CB35}</Project>
       <Name>CustomerIntelligence.OperationsProcessing</Name>
