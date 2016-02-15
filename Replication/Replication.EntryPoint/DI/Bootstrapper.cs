@@ -321,7 +321,7 @@ namespace NuClear.Replication.EntryPoint.DI
                 {
                     { Scope.Erm, ErmConnectionStringIdentity.Instance },
                     { Scope.Facts, FactsConnectionStringIdentity.Instance },
-                    { Scope.Bit, FactsConnectionStringIdentity.Instance },
+                    { Scope.Bit, BitConnectionStringIdentity.Instance },
                     { Scope.CustomerIntelligence, CustomerIntelligenceConnectionStringIdentity.Instance },
                     { Scope.Transport, TransportConnectionStringIdentity.Instance }
                 };
@@ -329,7 +329,7 @@ namespace NuClear.Replication.EntryPoint.DI
             var writeConnectionStringNameMap = new Dictionary<string, IConnectionStringIdentity>
                 {
                     { Scope.Facts, FactsConnectionStringIdentity.Instance },
-                    { Scope.Bit, FactsConnectionStringIdentity.Instance },
+                    { Scope.Bit, BitConnectionStringIdentity.Instance },
                     { Scope.CustomerIntelligence, CustomerIntelligenceConnectionStringIdentity.Instance },
                     { Scope.Transport, TransportConnectionStringIdentity.Instance }
                 };

@@ -22,6 +22,7 @@ namespace NuClear.CustomerIntelligence.StateInitialization
                         {
                             { ConnectionStringName.Erm, ErmConnectionStringIdentity.Instance },
                             { ConnectionStringName.Facts, FactsConnectionStringIdentity.Instance },
+                            { ConnectionStringName.Bit, BitConnectionStringIdentity.Instance },
                             { ConnectionStringName.CustomerIntelligence, CustomerIntelligenceConnectionStringIdentity.Instance },
                         };
 

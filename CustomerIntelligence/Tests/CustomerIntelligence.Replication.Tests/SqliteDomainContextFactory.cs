@@ -34,6 +34,7 @@ namespace NuClear.CustomerIntelligence.Replication.Tests
         {
             public const string Erm = "Erm";
             public const string Facts = "Facts";
+            public const string Bit = "Bit";
             public const string CustomerIntelligence = "CustomerIntelligence";
         }
 
@@ -111,6 +112,7 @@ namespace NuClear.CustomerIntelligence.Replication.Tests
                 {
                     { ConnectionStringNames.Erm, ErmConnectionStringIdentity.Instance },
                     { ConnectionStringNames.Facts, FactsConnectionStringIdentity.Instance },
+                    { ConnectionStringNames.Bit, BitConnectionStringIdentity.Instance },
                     { ConnectionStringNames.CustomerIntelligence, CustomerIntelligenceConnectionStringIdentity.Instance }
                 };
 
@@ -118,6 +120,7 @@ namespace NuClear.CustomerIntelligence.Replication.Tests
                 {
                     { ConnectionStringNames.Erm, ErmConnectionStringIdentity.Instance },
                     { ConnectionStringNames.Facts, FactsConnectionStringIdentity.Instance },
+                    { ConnectionStringNames.Bit, BitConnectionStringIdentity.Instance },
                     { ConnectionStringNames.CustomerIntelligence, CustomerIntelligenceConnectionStringIdentity.Instance }
                 };
 
@@ -135,6 +138,10 @@ namespace NuClear.CustomerIntelligence.Replication.Tests
                     },
                     {
                         FactsConnectionStringIdentity.Instance,
+                        ConfigurationManager.ConnectionStrings[ConnectionStringNames.Facts].ConnectionString
+                    },
+                    {
+                        BitConnectionStringIdentity.Instance,
                         ConfigurationManager.ConnectionStrings[ConnectionStringNames.Facts].ConnectionString
                     },
                     {

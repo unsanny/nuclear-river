@@ -33,6 +33,10 @@ namespace NuClear.Replication.EntryPoint.Settings
                         ConfigurationManager.ConnectionStrings["Facts"].ConnectionString
                     },
                     {
+                        BitConnectionStringIdentity.Instance,
+                        ConfigurationManager.ConnectionStrings["Facts"].ConnectionString
+                    },
+                    {
                         CustomerIntelligenceConnectionStringIdentity.Instance,
                         ConfigurationManager.ConnectionStrings["CustomerIntelligence"].ConnectionString
                     },

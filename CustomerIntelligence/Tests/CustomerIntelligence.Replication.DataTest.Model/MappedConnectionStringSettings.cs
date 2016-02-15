@@ -16,7 +16,7 @@ namespace NuClear.CustomerIntelligence.Replication.StateInitialization.Tests
             {
                 { ErmTestConnectionStringIdentity.Instance, ErmConnectionStringIdentity.Instance },
                 { FactsTestConnectionStringIdentity.Instance, FactsConnectionStringIdentity.Instance },
-                { BitTestConnectionStringIdentity.Instance, FactsConnectionStringIdentity.Instance },
+                { BitTestConnectionStringIdentity.Instance, BitTestConnectionStringIdentity.Instance },
                 { CustomerIntelligenceTestConnectionStringIdentity.Instance, CustomerIntelligenceConnectionStringIdentity.Instance },
                 { StatisticsTestConnectionStringIdentity.Instance, CustomerIntelligenceConnectionStringIdentity.Instance },
             };

@@ -25,7 +25,7 @@ namespace NuClear.CustomerIntelligence.Replication.Tests
 
             if (objType.Namespace.EndsWith(Bit))
             {
-                return Facts;
+                return Bit;
             }
 
             return CustomerIntelligence;
