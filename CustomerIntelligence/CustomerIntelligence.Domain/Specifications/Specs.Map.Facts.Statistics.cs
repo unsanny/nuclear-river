@@ -3,6 +3,7 @@ using System.Linq;
 
 using NuClear.Storage.API.Readings;
 using NuClear.Storage.API.Specifications;
+using NuClear.Utils.Join;
 
 namespace NuClear.CustomerIntelligence.Domain.Specifications
 {
@@ -22,6 +23,7 @@ namespace NuClear.CustomerIntelligence.Domain.Specifications
                         new MapSpecification<IQuery, IQueryable<Statistics::FirmCategory3>>(
                             q =>
                                 {
+                                    // Запрос к фактам
                                     var firmDtos = from firm in q.For<Facts::Firm>()
                                                     join project in q.For<Facts::Project>() on firm.OrganizationUnitId equals project.OrganizationUnitId
                                                     join firmAddress in q.For<Facts::FirmAddress>() on firm.Id equals firmAddress.FirmId
@@ -46,26 +48,79 @@ namespace NuClear.CustomerIntelligence.Domain.Specifications
                                     var categories3 = from firmDto in firmDtos.Distinct()
                                                       join firmCount in firmCounts on new { firmDto.ProjectId, firmDto.CategoryId } equals new { firmCount.ProjectId, firmCount.CategoryId }
                                                       join category in q.For<Facts::Category>() on firmDto.CategoryId equals category.Id
-                                                      from firmStatistics in q.For<Bit::FirmCategoryStatistics>()
-                                                                                  .Where(x => x.FirmId == firmDto.FirmId && x.CategoryId == firmDto.CategoryId && x.ProjectId == firmDto.ProjectId)
-                                                                                  .DefaultIfEmpty()
-                                                      from categoryStatistics in q.For<Bit::ProjectCategoryStatistics>()
-                                                                                  .Where(x => x.CategoryId == firmDto.CategoryId && x.ProjectId == firmDto.ProjectId)
-                                                                                  .DefaultIfEmpty()
                                                       select new Statistics::FirmCategory3
                                                       {
                                                           ProjectId = firmDto.ProjectId,
                                                           FirmId = firmDto.FirmId,
                                                           CategoryId = firmDto.CategoryId,
                                                           Name = category.Name,
-                                                          Hits = firmStatistics == null ? 0 : firmStatistics.Hits,
-                                                          Shows = firmStatistics == null ? 0 : firmStatistics.Shows,
                                                           FirmCount = firmCount.Count,
-                                                          AdvertisersShare = categoryStatistics == null ? 0 : Math.Min(1, (float)categoryStatistics.AdvertisersCount / firmCount.Count)
                                                       };
 
-                                    return categories3;
+                                    // Запрос к Bit, содержит коcтыль для эмуляции full join между FirmCategoryStatistics и ProjectCategoryStatistics
+                                    var partOne = from firmStatistics in q.For<Bit::FirmCategoryStatistics>()
+                                                  from categoryStatistics in q.For<Bit::ProjectCategoryStatistics>()
+                                                                           .Where(x => x.CategoryId == firmStatistics.CategoryId && x.ProjectId == firmStatistics.ProjectId)
+                                                                           .DefaultIfEmpty()
+                                                  select new { firmStatistics.CategoryId, firmStatistics.ProjectId, firmStatistics.FirmId, firmStatistics.Hits, firmStatistics.Shows, categoryStatistics.AdvertisersCount };
+
+                                    var partTwo = from categoryStatistics in q.For<Bit::ProjectCategoryStatistics>()
+                                                  from firmStatistics in q.For<Bit::FirmCategoryStatistics>()
+                                                                              .Where(x => x.CategoryId == categoryStatistics.CategoryId && x.ProjectId == categoryStatistics.ProjectId)
+                                                                              .DefaultIfEmpty()
+                                                  where firmStatistics == null
+                                                  select new { firmStatistics.CategoryId, firmStatistics.ProjectId, firmStatistics.FirmId, firmStatistics.Hits, firmStatistics.Shows, categoryStatistics.AdvertisersCount };
+
+                                    var statistics = partOne.Union(partTwo);
+
+                                    // Объединение данных из двух контекстов происходит в памяти процесса
+                                    var r = categories3.MemoryGroupJoin(statistics,
+                                                                       x => new StatKey { ProjectId = x.ProjectId, FirmId = x.FirmId, CategoryId = x.CategoryId },
+                                                                       x => new StatKey { ProjectId = x.ProjectId, FirmId = x.FirmId, CategoryId = x.CategoryId },
+                                                                       (cat, stats) => stats.FirstOrDefault() == null
+                                                                                           ? new Statistics::FirmCategory3
+                                                                                               {
+                                                                                                   ProjectId = cat.ProjectId,
+                                                                                                   FirmId = cat.FirmId,
+                                                                                                   CategoryId = cat.CategoryId,
+                                                                                                   Name = cat.Name,
+                                                                                                   FirmCount = cat.FirmCount,
+                                                                                               }
+                                                                                           : new Statistics::FirmCategory3
+                                                                                               {
+                                                                                                   ProjectId = cat.ProjectId,
+                                                                                                   FirmId = cat.FirmId,
+                                                                                                   CategoryId = cat.CategoryId,
+                                                                                                   Name = cat.Name,
+                                                                                                   FirmCount = cat.FirmCount,
+                                                                                                   Hits = stats.FirstOrDefault().Hits,
+                                                                                                   Shows = stats.FirstOrDefault().Shows,
+                                                                                                   AdvertisersShare = Math.Min(1, (float)stats.FirstOrDefault().AdvertisersCount / cat.FirmCount),
+                                                                                               });
+
+                                    return r;
                                 });
+
+                    private class StatKey : IComparable<StatKey>
+                    {
+                        public long ProjectId { get; set; }
+                        public long FirmId { get; set; }
+                        public long CategoryId { get; set; }
+
+                        public int CompareTo(StatKey other)
+                        {
+                            if(ProjectId != other.ProjectId)
+                                return ProjectId.CompareTo(other.ProjectId);
+
+                            if (FirmId != other.FirmId)
+                                return FirmId.CompareTo(other.FirmId);
+
+                            if (CategoryId != other.CategoryId)
+                                return CategoryId.CompareTo(other.CategoryId);
+
+                            return 0;
+                        }
+                    }
                 }
             }
         }
