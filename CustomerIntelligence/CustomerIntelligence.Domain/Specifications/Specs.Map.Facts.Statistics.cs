@@ -59,64 +59,85 @@ namespace NuClear.CustomerIntelligence.Domain.Specifications
 
                                     // Запрос к Bit, содержит коcтыль для эмуляции full join между FirmCategoryStatistics и ProjectCategoryStatistics
                                     var partOne = from firmStatistics in q.For<Bit::FirmCategoryStatistics>()
-                                                  from categoryStatistics in q.For<Bit::ProjectCategoryStatistics>()
-                                                                           .Where(x => x.CategoryId == firmStatistics.CategoryId && x.ProjectId == firmStatistics.ProjectId)
-                                                                           .DefaultIfEmpty()
-                                                  select new { firmStatistics.CategoryId, firmStatistics.ProjectId, firmStatistics.FirmId, firmStatistics.Hits, firmStatistics.Shows, categoryStatistics.AdvertisersCount };
+                                                  select new { firmStatistics.CategoryId, firmStatistics.ProjectId, FirmId = (long?)firmStatistics.FirmId, Hits = (int?)firmStatistics.Hits, Shows = (int?)firmStatistics.Shows, AdvertisersCount =(long?)null };
 
                                     var partTwo = from categoryStatistics in q.For<Bit::ProjectCategoryStatistics>()
-                                                  from firmStatistics in q.For<Bit::FirmCategoryStatistics>()
-                                                                              .Where(x => x.CategoryId == categoryStatistics.CategoryId && x.ProjectId == categoryStatistics.ProjectId)
-                                                                              .DefaultIfEmpty()
-                                                  where firmStatistics == null
-                                                  select new { firmStatistics.CategoryId, firmStatistics.ProjectId, firmStatistics.FirmId, firmStatistics.Hits, firmStatistics.Shows, categoryStatistics.AdvertisersCount };
+                                                  select new { categoryStatistics.CategoryId, categoryStatistics.ProjectId, FirmId = (long?)null, Hits = (int?)null, Shows = (int?)null, AdvertisersCount = (long?)categoryStatistics.AdvertisersCount };
 
                                     var statistics = partOne.Union(partTwo);
 
                                     // Объединение данных из двух контекстов происходит в памяти процесса
+                                    //var r = categories3.MemoryGroupJoin(statistics,
+                                    //                                    x => new StatKey { ProjectId = x.ProjectId, CategoryId = x.CategoryId, FirmId = x.FirmId },
+                                    //                                    x => new StatKey { ProjectId = x.ProjectId, CategoryId = x.CategoryId, FirmId = x.FirmId },
+                                    //                                    (cat, stats) => stats.FirstOrDefault(x => x.FirmId.HasValue) == null
+                                    //                                                        ? stats.FirstOrDefault(x => !x.FirmId.HasValue) == null
+                                    //                                                              ? new Statistics::FirmCategory3
+                                    //                                                                  {
+                                    //                                                                      ProjectId = cat.ProjectId,
+                                    //                                                                      FirmId = cat.FirmId,
+                                    //                                                                      CategoryId = cat.CategoryId,
+                                    //                                                                      Name = cat.Name,
+                                    //                                                                      FirmCount = cat.FirmCount,
+                                    //                                                                  }
+                                    //                                                              : new Statistics::FirmCategory3
+                                    //                                                                  {
+                                    //                                                                      ProjectId = cat.ProjectId,
+                                    //                                                                      FirmId = cat.FirmId,
+                                    //                                                                      CategoryId = cat.CategoryId,
+                                    //                                                                      Name = cat.Name,
+                                    //                                                                      FirmCount = cat.FirmCount,
+                                    //                                                                      AdvertisersShare = Math.Min(1, (float) stats.FirstOrDefault(x => !x.FirmId.HasValue).AdvertisersCount / cat.FirmCount),
+                                    //                                                                  }
+                                    //                                                        : stats.FirstOrDefault(x => !x.FirmId.HasValue) == null
+                                    //                                                              ? new Statistics::FirmCategory3
+                                    //                                                                  {
+                                    //                                                                      ProjectId = cat.ProjectId,
+                                    //                                                                      FirmId = cat.FirmId,
+                                    //                                                                      CategoryId = cat.CategoryId,
+                                    //                                                                      Name = cat.Name,
+                                    //                                                                      FirmCount = cat.FirmCount,
+                                    //                                                                      Hits = stats.FirstOrDefault(x => x.FirmId.HasValue).Hits.Value,
+                                    //                                                                      Shows = stats.FirstOrDefault(x => x.FirmId.HasValue).Shows.Value,
+                                    //                                                                  }
+                                    //                                                              : new Statistics::FirmCategory3
+                                    //                                                                  {
+                                    //                                                                      ProjectId = cat.ProjectId,
+                                    //                                                                      FirmId = cat.FirmId,
+                                    //                                                                      CategoryId = cat.CategoryId,
+                                    //                                                                      Name = cat.Name,
+                                    //                                                                      FirmCount = cat.FirmCount,
+                                    //                                                                      Hits = stats.FirstOrDefault(x => x.FirmId.HasValue).Hits.Value,
+                                    //                                                                      Shows = stats.FirstOrDefault(x => x.FirmId.HasValue).Shows.Value,
+                                    //                                                                      AdvertisersShare = Math.Min(1, (float)stats.FirstOrDefault(x => !x.FirmId.HasValue).AdvertisersCount / cat.FirmCount),
+                                    //                                                                  });
                                     var r = categories3.MemoryGroupJoin(statistics,
-                                                                       x => new StatKey { ProjectId = x.ProjectId, FirmId = x.FirmId, CategoryId = x.CategoryId },
-                                                                       x => new StatKey { ProjectId = x.ProjectId, FirmId = x.FirmId, CategoryId = x.CategoryId },
-                                                                       (cat, stats) => stats.FirstOrDefault() == null
-                                                                                           ? new Statistics::FirmCategory3
-                                                                                               {
-                                                                                                   ProjectId = cat.ProjectId,
-                                                                                                   FirmId = cat.FirmId,
-                                                                                                   CategoryId = cat.CategoryId,
-                                                                                                   Name = cat.Name,
-                                                                                                   FirmCount = cat.FirmCount,
-                                                                                               }
-                                                                                           : new Statistics::FirmCategory3
-                                                                                               {
-                                                                                                   ProjectId = cat.ProjectId,
-                                                                                                   FirmId = cat.FirmId,
-                                                                                                   CategoryId = cat.CategoryId,
-                                                                                                   Name = cat.Name,
-                                                                                                   FirmCount = cat.FirmCount,
-                                                                                                   Hits = stats.FirstOrDefault().Hits,
-                                                                                                   Shows = stats.FirstOrDefault().Shows,
-                                                                                                   AdvertisersShare = Math.Min(1, (float)stats.FirstOrDefault().AdvertisersCount / cat.FirmCount),
-                                                                                               });
+                                                                        x => new StatKey { ProjectId = x.ProjectId, CategoryId = x.CategoryId, FirmId = x.FirmId },
+                                                                        x => new StatKey { ProjectId = x.ProjectId, CategoryId = x.CategoryId, FirmId = x.FirmId },
+                                                                        (cat, stats) => new {cat, stats});
 
-                                    return r;
+                                    var z = statistics.ToArray();
+                                    var rx = r.ToArray();
+                                    throw new Exception();
                                 });
 
                     private class StatKey : IComparable<StatKey>
                     {
                         public long ProjectId { get; set; }
-                        public long FirmId { get; set; }
                         public long CategoryId { get; set; }
+                        public long? FirmId { get; set; }
 
                         public int CompareTo(StatKey other)
                         {
                             if(ProjectId != other.ProjectId)
                                 return ProjectId.CompareTo(other.ProjectId);
 
-                            if (FirmId != other.FirmId)
-                                return FirmId.CompareTo(other.FirmId);
-
                             if (CategoryId != other.CategoryId)
                                 return CategoryId.CompareTo(other.CategoryId);
+
+                            // Грязный хак, если хотя бы одно из полей null - считаем совпадение.
+                            if (FirmId.HasValue && other.FirmId.HasValue)
+                                return FirmId.Value.CompareTo(other.FirmId.Value);
 
                             return 0;
                         }
