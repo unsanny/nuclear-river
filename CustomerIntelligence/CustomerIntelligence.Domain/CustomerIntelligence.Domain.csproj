@@ -174,10 +174,6 @@
       <HintPath>..\..\packages\2GIS.NuClear.Utils.1.0.10\lib\portable-net451+win81+wpa81\2GIS.NuClear.Utils.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="2GIS.NuClear.Utils.Join, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\2GIS.NuClear.Utils.Join.0.0.10\lib\portable-net451+win81+wpa81\2GIS.NuClear.Utils.Join.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
