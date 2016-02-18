@@ -76,6 +76,7 @@
     <Compile Include="Identitites\Connections\StatisticsTestConnectionStringIdentity.cs" />
     <Compile Include="Keys.cs" />
     <Compile Include="MappedConnectionStringSettings.cs" />
+    <Compile Include="SchemaMetadataElementBuilderExtensions.cs" />
     <Compile Include="TestCaseMetadataSource.CategoryDictionary.cs" />
     <Compile Include="TestCaseMetadataSource.Client.cs" />
     <Compile Include="TestCaseMetadataSource.Territory.cs" />
