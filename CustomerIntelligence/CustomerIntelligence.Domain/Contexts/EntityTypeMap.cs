@@ -76,10 +76,13 @@ namespace NuClear.CustomerIntelligence.Domain.Contexts
                     .AddMapping<EntityTypeFirmBalance, CI.FirmBalance>()
                     .AddMapping<EntityTypeFirmCategory1, CI.FirmCategory1>()
                     .AddMapping<EntityTypeFirmCategory2, CI.FirmCategory2>()
-                    .AddMapping<EntityTypeFirmCategory3, Statistics.FirmCategory3>()
                     .AddMapping<EntityTypeProject, CI.Project>()
                     .AddMapping<EntityTypeProjectCategory, CI.ProjectCategory>()
                     .AddMapping<EntityTypeTerritory, CI.Territory>();
+
+        private static readonly Action<EntityTypeMappingRegistryBuilder> StatisticsTypeMap
+            = builder => builder
+                    .AddMapping<EntityTypeFirmCategory3, Statistics.FirmCategory3>();
 
         private static readonly Action<EntityTypeMappingRegistryBuilder> BitFactsTypeMap
             = builder => builder
@@ -111,6 +114,13 @@ namespace NuClear.CustomerIntelligence.Domain.Contexts
         {
             var builder = new EntityTypeMappingRegistryBuilder();
             BitFactsTypeMap.Invoke(builder);
+            return builder.Create<BitFactsSubDomain>();
+        }
+
+        public static IEntityTypeMappingRegistry<BitFactsSubDomain> CreateStatisticsContext()
+        {
+            var builder = new EntityTypeMappingRegistryBuilder();
+            StatisticsTypeMap.Invoke(builder);
             return builder.Create<BitFactsSubDomain>();
         }
     }

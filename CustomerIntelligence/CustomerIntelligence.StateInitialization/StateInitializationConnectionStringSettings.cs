@@ -24,6 +24,7 @@ namespace NuClear.CustomerIntelligence.StateInitialization
                             { ConnectionStringName.Facts, FactsConnectionStringIdentity.Instance },
                             { ConnectionStringName.Bit, BitConnectionStringIdentity.Instance },
                             { ConnectionStringName.CustomerIntelligence, CustomerIntelligenceConnectionStringIdentity.Instance },
+                            { ConnectionStringName.Statistics, StatisticsConnectionStringIdentity.Instance },
                         };
 
             return available.Join(known, x => x.Key, x => x.Key, (x, y) => Tuple.Create(y.Value, x.Value)).ToDictionary(x => x.Item1, x => x.Item2);

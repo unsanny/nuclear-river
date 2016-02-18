@@ -41,6 +41,10 @@ namespace NuClear.Replication.EntryPoint.Settings
                         ConfigurationManager.ConnectionStrings["CustomerIntelligence"].ConnectionString
                     },
                     {
+                        StatisticsConnectionStringIdentity.Instance,
+                        ConfigurationManager.ConnectionStrings["Statistics"].ConnectionString
+                    },
+                    {
                         TransportConnectionStringIdentity.Instance,
                         ConfigurationManager.ConnectionStrings["Transport"].ConnectionString
                     },

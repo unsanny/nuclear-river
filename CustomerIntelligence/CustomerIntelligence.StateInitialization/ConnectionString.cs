@@ -16,5 +16,8 @@ namespace NuClear.CustomerIntelligence.StateInitialization
 
         public static IConnectionStringIdentity CustomerIntelligence =
             CustomerIntelligenceConnectionStringIdentity.Instance;
+
+        public static IConnectionStringIdentity Statistics =
+            StatisticsConnectionStringIdentity.Instance;
     }
 }

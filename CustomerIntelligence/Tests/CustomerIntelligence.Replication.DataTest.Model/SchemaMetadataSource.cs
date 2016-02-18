@@ -45,7 +45,7 @@ namespace NuClear.CustomerIntelligence.Replication.StateInitialization.Tests
         private static readonly SchemaMetadataElement Statistics = SchemaMetadataElement.Config
             .For(ContextName.Statistics)
             .HasConnectionString<StatisticsTestConnectionStringIdentity>()
-            .HasSchema(Schema.CustomerIntelligence)
+            .HasSchema(Schema.Statistics)
             .HasEntitiesFromNamespace(typeof(Statistics::FirmCategory3).Namespace);
 
         public SchemaMetadataSource()

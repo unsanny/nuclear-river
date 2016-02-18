@@ -33,7 +33,7 @@ namespace NuClear.CustomerIntelligence.StateInitialization
                                               .CommandlineKey("-statistics")
                                               .From(ConnectionString.Facts, Schema.Facts, EntityTypeMap.CreateFactsContext())
                                               .From(ConnectionString.Bit, Schema.Bit, EntityTypeMap.CreateBitFactsContext())
-                                              .To(ConnectionString.CustomerIntelligence, Schema.CustomerIntelligence)
+                                              .To(ConnectionString.Statistics, Schema.Statistics)
                                               .UsingMetadataOfKind<StatisticsRecalculationMetadataIdentity>()
             }.ToDictionary(x => x.Identity.Id, x => (IMetadataElement)x);
 

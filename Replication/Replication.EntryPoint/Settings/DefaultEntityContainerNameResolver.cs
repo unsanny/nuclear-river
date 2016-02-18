@@ -1,5 +1,6 @@
 ﻿using System;
 
+using NuClear.CustomerIntelligence.Domain.Model.Statistics;
 using NuClear.OperationsProcessing.Transports.SQLStore.Final;
 using NuClear.Storage.Core;
 
@@ -11,6 +12,7 @@ namespace NuClear.Replication.EntryPoint.Settings
         private const string Bit = "Bit";
         private const string Facts = "Facts";
         private const string CustomerIntelligence = "CustomerIntelligence";
+        private const string Statistics = "Statistics";
         private const string Transport = "Transport";
 
         public string Resolve(Type objType)
@@ -28,6 +30,11 @@ namespace NuClear.Replication.EntryPoint.Settings
             if (objType.Namespace.EndsWith(Bit))
             {
                 return Bit;
+            }
+
+            if (objType == typeof(FirmCategory3))
+            {
+                return Statistics;
             }
 
             if (objType == typeof(PerformedOperationFinalProcessing))

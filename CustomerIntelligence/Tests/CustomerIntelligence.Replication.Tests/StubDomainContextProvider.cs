@@ -21,7 +21,8 @@ namespace NuClear.CustomerIntelligence.Replication.Tests
                                                                                 { "Erm", Schema.Erm },
                                                                                 { "Facts", Schema.Facts },
                                                                                 { "Bit", Schema.Bit },
-                                                                                { "CustomerIntelligence", Schema.CustomerIntelligence }
+                                                                                { "CustomerIntelligence", Schema.CustomerIntelligence },
+                                                                                { "Statistics", Schema.Statistics }
                                                                             });
             _scopedDomainContextsStore = new ScopedDomainContextsStore(
                 new CachingReadableDomainContext(_sqliteDomainContextFactory, _sqliteDomainContextFactory),

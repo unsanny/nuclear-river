@@ -42,6 +42,17 @@ namespace NuClear.CustomerIntelligence.Storage
                     .Property(x => x.CategoryId).IsPrimaryKey();
                 config.Entity<Territory>().HasSchemaName(CustomerIntelligenceSchema).Property(x => x.Id).IsPrimaryKey();
 
+                return schema;
+            }
+        }
+
+        public static MappingSchema Statistics
+        {
+            get
+            {
+                var schema = new MappingSchema(nameof(Statistics), new SqlServerMappingSchema());
+                var config = schema.GetFluentMappingBuilder();
+
                 config.Entity<FirmCategory3>().HasSchemaName(CustomerIntelligenceSchema)
                     .Property(x => x.FirmId).IsPrimaryKey()
                     .Property(x => x.CategoryId).IsPrimaryKey();

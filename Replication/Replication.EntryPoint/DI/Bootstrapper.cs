@@ -266,6 +266,7 @@ namespace NuClear.Replication.EntryPoint.DI
                                     { Scope.Facts, Schema.Facts },
                                     { Scope.Bit, Schema.Bit },
                                     { Scope.CustomerIntelligence, Schema.CustomerIntelligence },
+                                    { Scope.Statistics, Schema.Statistics },
                                     { Scope.Transport, TransportSchema.Transport },
                                 };
 
@@ -323,6 +324,7 @@ namespace NuClear.Replication.EntryPoint.DI
                     { Scope.Facts, FactsConnectionStringIdentity.Instance },
                     { Scope.Bit, BitConnectionStringIdentity.Instance },
                     { Scope.CustomerIntelligence, CustomerIntelligenceConnectionStringIdentity.Instance },
+                    { Scope.Statistics, StatisticsConnectionStringIdentity.Instance },
                     { Scope.Transport, TransportConnectionStringIdentity.Instance }
                 };
 
@@ -331,6 +333,7 @@ namespace NuClear.Replication.EntryPoint.DI
                     { Scope.Facts, FactsConnectionStringIdentity.Instance },
                     { Scope.Bit, BitConnectionStringIdentity.Instance },
                     { Scope.CustomerIntelligence, CustomerIntelligenceConnectionStringIdentity.Instance },
+                    { Scope.Statistics, StatisticsConnectionStringIdentity.Instance },
                     { Scope.Transport, TransportConnectionStringIdentity.Instance }
                 };
 
@@ -342,7 +345,8 @@ namespace NuClear.Replication.EntryPoint.DI
             return container.RegisterInstance(EntityTypeMap.CreateErmContext())
                             .RegisterInstance(EntityTypeMap.CreateCustomerIntelligenceContext())
                             .RegisterInstance(EntityTypeMap.CreateFactsContext())
-                            .RegisterInstance(EntityTypeMap.CreateBitFactsContext());
+                            .RegisterInstance(EntityTypeMap.CreateBitFactsContext())
+                            .RegisterInstance(EntityTypeMap.CreateStatisticsContext());
         }
 
         private static class Scope
@@ -351,6 +355,7 @@ namespace NuClear.Replication.EntryPoint.DI
             public const string Facts = "Facts";
             public const string Bit = "Bit";
             public const string CustomerIntelligence = "CustomerIntelligence";
+            public const string Statistics = "Statistics";
             public const string Transport = "Transport";
         }
     }

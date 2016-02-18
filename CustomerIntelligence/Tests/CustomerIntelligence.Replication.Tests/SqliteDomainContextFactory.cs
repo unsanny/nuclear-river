@@ -36,6 +36,7 @@ namespace NuClear.CustomerIntelligence.Replication.Tests
             public const string Facts = "Facts";
             public const string Bit = "Bit";
             public const string CustomerIntelligence = "CustomerIntelligence";
+            public const string Statistics = "Statistics";
         }
 
         private static readonly MethodInfo CreateTableMethodInfo =
@@ -113,7 +114,8 @@ namespace NuClear.CustomerIntelligence.Replication.Tests
                     { ConnectionStringNames.Erm, ErmConnectionStringIdentity.Instance },
                     { ConnectionStringNames.Facts, FactsConnectionStringIdentity.Instance },
                     { ConnectionStringNames.Bit, BitConnectionStringIdentity.Instance },
-                    { ConnectionStringNames.CustomerIntelligence, CustomerIntelligenceConnectionStringIdentity.Instance }
+                    { ConnectionStringNames.CustomerIntelligence, CustomerIntelligenceConnectionStringIdentity.Instance },
+                    { ConnectionStringNames.Statistics, StatisticsConnectionStringIdentity.Instance },
                 };
 
             var writeConnectionStringNameMap = new Dictionary<string, IConnectionStringIdentity>
@@ -121,7 +123,8 @@ namespace NuClear.CustomerIntelligence.Replication.Tests
                     { ConnectionStringNames.Erm, ErmConnectionStringIdentity.Instance },
                     { ConnectionStringNames.Facts, FactsConnectionStringIdentity.Instance },
                     { ConnectionStringNames.Bit, BitConnectionStringIdentity.Instance },
-                    { ConnectionStringNames.CustomerIntelligence, CustomerIntelligenceConnectionStringIdentity.Instance }
+                    { ConnectionStringNames.CustomerIntelligence, CustomerIntelligenceConnectionStringIdentity.Instance },
+                    { ConnectionStringNames.Statistics, StatisticsConnectionStringIdentity.Instance },
                 };
 
             return new ConnectionStringIdentityResolver(readConnectionStringNameMap, writeConnectionStringNameMap);
@@ -146,6 +149,10 @@ namespace NuClear.CustomerIntelligence.Replication.Tests
                     },
                     {
                         CustomerIntelligenceConnectionStringIdentity.Instance,
+                        ConfigurationManager.ConnectionStrings[ConnectionStringNames.CustomerIntelligence].ConnectionString
+                    },
+                    {
+                        StatisticsConnectionStringIdentity.Instance,
                         ConfigurationManager.ConnectionStrings[ConnectionStringNames.CustomerIntelligence].ConnectionString
                     }
                 });

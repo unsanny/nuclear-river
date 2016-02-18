@@ -40,6 +40,7 @@
     <Compile Include="Contexts\BitFactsSubDomain.cs" />
     <Compile Include="Contexts\ErmSubDomain.cs" />
     <Compile Include="Contexts\FactsSubDomain.cs" />
+    <Compile Include="Contexts\StatisticsSubDomain.cs" />
     <Compile Include="DTO\CategoryStatisticsDto.cs" />
     <Compile Include="DTO\FirmStatisticsDto.cs" />
     <Compile Include="EntityTypeIds.cs" />

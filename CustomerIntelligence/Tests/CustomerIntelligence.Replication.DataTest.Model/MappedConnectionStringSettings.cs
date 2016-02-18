@@ -14,11 +14,11 @@ namespace NuClear.CustomerIntelligence.Replication.StateInitialization.Tests
         private static readonly IReadOnlyDictionary<IConnectionStringIdentity, IConnectionStringIdentity> Mapping =
             new Dictionary<IConnectionStringIdentity, IConnectionStringIdentity>
             {
-                { ErmTestConnectionStringIdentity.Instance, ErmConnectionStringIdentity.Instance },
-                { FactsTestConnectionStringIdentity.Instance, FactsConnectionStringIdentity.Instance },
-                { BitTestConnectionStringIdentity.Instance, BitConnectionStringIdentity.Instance },
-                { CustomerIntelligenceTestConnectionStringIdentity.Instance, CustomerIntelligenceConnectionStringIdentity.Instance },
-                { StatisticsTestConnectionStringIdentity.Instance, CustomerIntelligenceConnectionStringIdentity.Instance },
+                { ErmConnectionStringIdentity.Instance, ErmTestConnectionStringIdentity.Instance },
+                { FactsConnectionStringIdentity.Instance, FactsTestConnectionStringIdentity.Instance },
+                { BitConnectionStringIdentity.Instance, BitTestConnectionStringIdentity.Instance },
+                { CustomerIntelligenceConnectionStringIdentity.Instance, CustomerIntelligenceTestConnectionStringIdentity.Instance },
+                { StatisticsConnectionStringIdentity.Instance, StatisticsTestConnectionStringIdentity.Instance },
             };
 
         private readonly IConnectionStringSettings _connectionStringSettings;
@@ -34,16 +34,7 @@ namespace NuClear.CustomerIntelligence.Replication.StateInitialization.Tests
 
         public static IConnectionStringSettings CreateMappedSettings(IConnectionStringSettings baseSettings, ActMetadataElement actMetadata, IDictionary<string, SchemaMetadataElement> schemaMetadata)
         {
-            var mapping = new Dictionary<IConnectionStringIdentity, IConnectionStringIdentity>();
-
-            foreach (var context in new[] { actMetadata.Source, actMetadata.Target })
-            {
-                var contextDbConnection = schemaMetadata[context].ConnectionStringIdentity;
-                var bulktoolDbConnection = Mapping[contextDbConnection];
-                mapping.Add(bulktoolDbConnection, contextDbConnection);
-            }
-
-            return new MappedConnectionStringSettings(baseSettings, mapping);
+            return new MappedConnectionStringSettings(baseSettings, Mapping);
         }
 
         public string GetConnectionString(IConnectionStringIdentity identity)
