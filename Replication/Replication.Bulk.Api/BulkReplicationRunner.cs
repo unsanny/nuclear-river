@@ -59,9 +59,11 @@ namespace NuClear.Replication.Bulk.Api
 
         private IBulkReplicatorFactory CreateReplicatorFactory(BulkReplicationMetadataElement bulkReplicationMetadata)
         {
-            var sourceStorageDescriptor = bulkReplicationMetadata.Features.OfType<StorageDescriptorFeature>().Single(x => x.Direction == ReplicationDirection.From);
+            var sourceStorageDescriptors = bulkReplicationMetadata.Features.OfType<SourceStorageDescriptorFeature>();
             var targetStorageDescriptor = bulkReplicationMetadata.Features.OfType<StorageDescriptorFeature>().Single(x => x.Direction == ReplicationDirection.To);
-            return new RoutingBulkReplicatorFactory(_dataConnectionFactory.CreateConnection(sourceStorageDescriptor), _dataConnectionFactory.CreateConnection(targetStorageDescriptor));
+            return new RoutingBulkReplicatorFactory(
+                sourceStorageDescriptors.ToDictionary(_dataConnectionFactory.CreateConnection, x => x.Registry.EntityMapping.Values.Union(x.Registry.PersistenceEntities).ToArray()),
+                _dataConnectionFactory.CreateConnection(targetStorageDescriptor));
         }
     }
 }
