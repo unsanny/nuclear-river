@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using NuClear.CustomerIntelligence.Domain.Contexts;
 using NuClear.CustomerIntelligence.Replication.StateInitialization.Tests.Identitites.Connections;
 using NuClear.CustomerIntelligence.Storage;
+using NuClear.CustomerIntelligence.Storage.Identitites.Connections;
 using NuClear.DataTest.Metamodel;
 using NuClear.Metamodeling.Elements;
 using NuClear.Metamodeling.Provider.Sources;
@@ -14,32 +15,32 @@ namespace NuClear.CustomerIntelligence.Replication.StateInitialization.Tests
     {
         private static readonly SchemaMetadataElement Erm = SchemaMetadataElement.Config
             .For(ContextName.Erm)
-            .HasConnectionString<ErmTestConnectionStringIdentity>()
+            .HasConnectionString<ErmConnectionStringIdentity>()
             .HasMasterConnectionString<ErmMasterConnectionStringIdentity>()
             .HasSchema(Schema.Erm)
             .HasEntitiesFromRegistry(EntityTypeMap.CreateErmContext());
 
         private static readonly SchemaMetadataElement Facts = SchemaMetadataElement.Config
             .For(ContextName.Facts)
-            .HasConnectionString<FactsTestConnectionStringIdentity>()
+            .HasConnectionString<FactsConnectionStringIdentity>()
             .HasSchema(Schema.Facts)
             .HasEntitiesFromRegistry(EntityTypeMap.CreateFactsContext());
 
         private static readonly SchemaMetadataElement CustomerIntelligence = SchemaMetadataElement.Config
             .For(ContextName.CustomerIntelligence)
-            .HasConnectionString<CustomerIntelligenceTestConnectionStringIdentity>()
+            .HasConnectionString<CustomerIntelligenceConnectionStringIdentity>()
             .HasSchema(Schema.CustomerIntelligence)
             .HasEntitiesFromRegistry(EntityTypeMap.CreateCustomerIntelligenceContext());
 
         private static readonly SchemaMetadataElement Bit = SchemaMetadataElement.Config
             .For(ContextName.Bit)
-            .HasConnectionString<BitTestConnectionStringIdentity>()
+            .HasConnectionString<BitConnectionStringIdentity>()
             .HasSchema(Schema.Bit)
             .HasEntitiesFromRegistry(EntityTypeMap.CreateBitFactsContext());
 
         private static readonly SchemaMetadataElement Statistics = SchemaMetadataElement.Config
             .For(ContextName.Statistics)
-            .HasConnectionString<StatisticsTestConnectionStringIdentity>()
+            .HasConnectionString<StatisticsConnectionStringIdentity>()
             .HasSchema(Schema.Statistics)
             .HasEntitiesFromRegistry(EntityTypeMap.CreateStatisticsContext());
 

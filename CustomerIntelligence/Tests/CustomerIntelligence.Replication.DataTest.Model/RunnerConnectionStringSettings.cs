@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 
 using NuClear.CustomerIntelligence.Replication.StateInitialization.Tests.Identitites.Connections;
+using NuClear.CustomerIntelligence.Storage.Identitites.Connections;
 using NuClear.Storage.API.ConnectionStrings;
 
 namespace NuClear.CustomerIntelligence.Replication.StateInitialization.Tests
@@ -26,11 +27,11 @@ namespace NuClear.CustomerIntelligence.Replication.StateInitialization.Tests
         private static IReadOnlyDictionary<IConnectionStringIdentity, string> CreateConnectionStringMappings(ConnectionStringSettingsCollection configuration) =>
             new Dictionary<IConnectionStringIdentity, string>
             {
-                { ErmTestConnectionStringIdentity.Instance, MakeUniqueSqlConnectionString(configuration[ConnectionStringName.Erm].ConnectionString) },
-                { FactsTestConnectionStringIdentity.Instance, MakeUniqueSqlConnectionString(configuration[ConnectionStringName.Facts].ConnectionString) },
-                { CustomerIntelligenceTestConnectionStringIdentity.Instance, MakeUniqueSqlConnectionString(configuration[ConnectionStringName.CustomerIntelligence].ConnectionString) },
-                { BitTestConnectionStringIdentity.Instance, MakeUniqueSqlConnectionString(configuration[ConnectionStringName.Bit].ConnectionString) },
-                { StatisticsTestConnectionStringIdentity.Instance, MakeUniqueSqlConnectionString(configuration[ConnectionStringName.Statistics].ConnectionString) },
+                { ErmConnectionStringIdentity.Instance, MakeUniqueSqlConnectionString(configuration[ConnectionStringName.Erm].ConnectionString) },
+                { FactsConnectionStringIdentity.Instance, MakeUniqueSqlConnectionString(configuration[ConnectionStringName.Facts].ConnectionString) },
+                { CustomerIntelligenceConnectionStringIdentity.Instance, MakeUniqueSqlConnectionString(configuration[ConnectionStringName.CustomerIntelligence].ConnectionString) },
+                { BitConnectionStringIdentity.Instance, MakeUniqueSqlConnectionString(configuration[ConnectionStringName.Bit].ConnectionString) },
+                { StatisticsConnectionStringIdentity.Instance, MakeUniqueSqlConnectionString(configuration[ConnectionStringName.Statistics].ConnectionString) },
 
                 { ErmMasterConnectionStringIdentity.Instance, configuration[ConnectionStringName.ErmMaster].ConnectionString },
             };
