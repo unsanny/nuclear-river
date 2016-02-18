@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
+using NuClear.Metamodeling.Elements;
 using NuClear.Metamodeling.Elements.Identities;
 using NuClear.Metamodeling.Elements.Identities.Builder;
 using NuClear.Metamodeling.Provider;
@@ -38,22 +40,47 @@ namespace NuClear.Replication.Bulk.Api
             var context = bulkReplicationMetadata.Elements.Single();
             using (_viewRemover.TemporaryRemoveViews(storageDescriptor.ConnectionStringName, bulkReplicationMetadata.EssentialViews))
             {
-                Parallel.ForEach(context.Elements,
-                                 element =>
-                                 {
-                                     using (var bulkReplicatorFactory = CreateReplicatorFactory(bulkReplicationMetadata))
-                                     {
-                                         var sw = Stopwatch.StartNew();
-                                         var replicators = bulkReplicatorFactory.Create(element);
-                                         foreach (var replicator in replicators)
-                                         {
-                                             replicator.Replicate();
-                                         }
+                try
+                {
+                    ProcessMetadata(context.Elements, bulkReplicationMetadata);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    throw;
+                }
+            }
+        }
 
-                                         sw.Stop();
-                                         Console.WriteLine($"{element.Identity.Id}: {sw.Elapsed.TotalSeconds} seconds");
+        private void ProcessMetadata(IEnumerable<IMetadataElement> elements, BulkReplicationMetadataElement bulkReplicationMetadata)
+        {
+            Parallel.ForEach(elements,
+                             element =>
+                                 {
+                                     try
+                                     {
+                                         ProcessMetadataElement(element, bulkReplicationMetadata);
+                                     }
+                                     catch (Exception ex)
+                                     {
+                                         throw new Exception($"Error when processing metadata element {element.Identity.Id}", ex);
                                      }
                                  });
+        }
+
+        private void ProcessMetadataElement(IMetadataElement element, BulkReplicationMetadataElement bulkReplicationMetadata)
+        {
+            using (var bulkReplicatorFactory = CreateReplicatorFactory(bulkReplicationMetadata))
+            {
+                var sw = Stopwatch.StartNew();
+                var replicators = bulkReplicatorFactory.Create(element);
+                foreach (var replicator in replicators)
+                {
+                    replicator.Replicate();
+                }
+
+                sw.Stop();
+                Console.WriteLine($"{element.Identity.Id}: {sw.Elapsed.TotalSeconds} seconds");
             }
         }
 
