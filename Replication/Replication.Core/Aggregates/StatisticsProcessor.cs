@@ -1,9 +1,13 @@
-﻿using NuClear.AdvancedSearch.Common.Metadata;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+using NuClear.AdvancedSearch.Common.Metadata;
 using NuClear.AdvancedSearch.Common.Metadata.Elements;
 using NuClear.AdvancedSearch.Common.Metadata.Equality;
 using NuClear.Replication.Core.API;
 using NuClear.Replication.Core.API.Aggregates;
 using NuClear.Storage.API.Readings;
+using NuClear.Storage.API.Specifications;
 
 namespace NuClear.Replication.Core.Aggregates
 {
@@ -23,10 +27,9 @@ namespace NuClear.Replication.Core.Aggregates
             _changesDetector = new DataChangesDetector<T, T>(_metadata.MapSpecificationProviderForSource, _metadata.MapSpecificationProviderForTarget, query);
         }
 
-        public void RecalculateStatistics(StatisticsProcessorSlice slice)
+        public void RecalculateStatistics(IEnumerable<StatisticsProcessorSlice> slices)
         {
-            // todo: имеет ли смысл slice передать в спецификацию?
-            var filter = _metadata.FindSpecificationProvider.Invoke(slice.ProjectId, slice.CategoryIds);
+            var filter = slices.Aggregate(new FindSpecification<T>(x => true), (current, slice) => current | _metadata.FindSpecificationProvider.Invoke(slice.ProjectId, slice.CategoryIds));
 
             // Сначала сравниением получаем различающиеся записи,
             // затем получаем те из различающихся, которые совпадают по идентификатору.

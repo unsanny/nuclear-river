@@ -1,7 +1,9 @@
-﻿namespace NuClear.Replication.Core.API.Aggregates
+﻿using System.Collections.Generic;
+
+namespace NuClear.Replication.Core.API.Aggregates
 {
     public interface IStatisticsProcessor
     {
-        void RecalculateStatistics(StatisticsProcessorSlice slice);
+        void RecalculateStatistics(IEnumerable<StatisticsProcessorSlice> slices);
     }
 }

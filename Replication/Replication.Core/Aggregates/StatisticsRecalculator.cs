@@ -30,10 +30,7 @@ namespace NuClear.Replication.Core.Aggregates
 
             using (Probe.Create("Recalculate Statistics Operations"))
             {
-                foreach (var slice in _slicer.Slice(operations.Select(o => o.Context)))
-                {
-                    processor.RecalculateStatistics(slice);
-                }
+                processor.RecalculateStatistics(_slicer.Slice(operations.Select(o => o.Context)));
             }
         }
 
