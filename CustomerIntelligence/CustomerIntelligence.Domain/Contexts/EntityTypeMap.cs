@@ -17,9 +17,13 @@ namespace NuClear.CustomerIntelligence.Domain.Contexts
         private static readonly Action<EntityTypeMappingRegistryBuilder> ErmTypeMap
             = builder => builder
                     .AddMapping<EntityTypeAppointment, Erm.Appointment>()
+                    .AddAsPersistenceOnly(typeof(Erm::AppointmentReference))
                     .AddMapping<EntityTypePhonecall, Erm.Phonecall>()
+                    .AddAsPersistenceOnly(typeof(Erm::PhonecallReference))
                     .AddMapping<EntityTypeTask, Erm.Task>()
+                    .AddAsPersistenceOnly(typeof(Erm::TaskReference))
                     .AddMapping<EntityTypeLetter, Erm.Letter>()
+                    .AddAsPersistenceOnly(typeof(Erm::LetterReference))
                     .AddMapping<EntityTypeAccount, Erm.Account>()
                     .AddMapping<EntityTypeBranchOfficeOrganizationUnit, Erm.BranchOfficeOrganizationUnit>()
                     .AddMapping<EntityTypeCategory, Erm.Category>()
